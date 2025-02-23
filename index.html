@@ -14,6 +14,9 @@
             color: white;
             transition: background-image 0.5s ease-in-out;
             position: relative;
+            margin: 0;
+            padding: 0;
+            text-shadow: 2px 2px 4px black;
         }
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
@@ -26,9 +29,13 @@
             border: none;
             cursor: pointer;
             color: white;
-            border-radius: 5px;
+            border-radius: 50px;
             position: relative;
             z-index: 2;
+            font-size: 14px;
+            white-space: nowrap;
+            text-align: center;
+            text-shadow: 2px 2px 4px black;
         }
         .recommendation-card {
             background: rgba(0, 0, 0, 0.8);
@@ -38,6 +45,10 @@
             display: none;
             position: relative;
             z-index: 2;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 2px 2px 4px black;
         }
         .genre-container {
             display: grid;
@@ -46,7 +57,7 @@
             justify-content: center;
             position: relative;
             z-index: 2;
-            max-width: 500px;
+            max-width: 90%;
             margin: auto;
         }
         .background-overlay {
@@ -61,6 +72,18 @@
             transition: background-image 0.5s ease-in-out;
             z-index: 1;
         }
+        .recommend-btn {
+            margin-top: 22px;
+            text-shadow: 2px 2px 4px black;
+        }
+        .anime-image {
+            max-width: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -68,14 +91,15 @@
     <h1>Anime Recommendation</h1>
     <h2>Select Your Genre</h2>
     <div id="genre-buttons" class="genre-container"></div>
-    <button class="btn" style="background: red;" onclick="fetchRecommendation()">Get Recommendations</button>
+    <button class="btn recommend-btn" style="background: red;" onclick="fetchRecommendation()">Get Recommendations</button>
     
     <div id="recommendation" class="recommendation-card">
+        <img id="anime-image" class="anime-image" src="" alt="Anime Image" style="display: none;">
         <h3 id="anime-title"></h3>
         <p id="anime-rating"></p>
         <p id="anime-episodes"></p>
         <p id="anime-synopsis"></p>
-        <a id="anime-link" target="_blank" style="color: cyan; text-decoration: underline;">Watch on HiAnime</a>
+        <a id="anime-link" target="_blank" style="color: cyan; text-decoration: underline; text-shadow: 2px 2px 4px black;">Watch on HiAnime</a>
     </div>
 
     <script>
@@ -125,6 +149,8 @@
                 
                 const anime = animeList[Math.floor(Math.random() * animeList.length)];
                 seenRecommendations.add(anime.title_english || anime.title);
+                document.getElementById("anime-image").src = anime.images.jpg.large_image_url;
+                document.getElementById("anime-image").style.display = "block";
                 document.getElementById("anime-title").innerText = anime.title_english || anime.title;
                 document.getElementById("anime-rating").innerText = "Rating: " + (anime.score || "N/A") + "⭐";
                 document.getElementById("anime-episodes").innerText = "Episodes: " + (anime.episodes || "Unknown");
@@ -132,7 +158,6 @@
                 document.getElementById("anime-link").href = `https://www.google.com/search?q=site:hianime.to+${encodeURIComponent(anime.title_english || anime.title)}`;
                 document.getElementById("recommendation").style.display = "block";
                 
-                // Set background image
                 document.getElementById("background-overlay").style.backgroundImage = `url(${anime.images.jpg.large_image_url})`;
             } catch (error) {
                 console.error("Error fetching anime recommendations:", error);
