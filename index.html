@@ -101,8 +101,10 @@
             }
             .genre-container {
                 max-width: 100%;
-                flex-direction: column;
-                align-items: center;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 10px;
+                justify-content: center;
             }
         }
     </style>
